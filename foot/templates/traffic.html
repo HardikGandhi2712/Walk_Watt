@@ -1,0 +1,214 @@
+{% extends 'foot/base.html' %}
+
+{% block title %}Home - Footstep Energy{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Monitoring Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .card {
+            margin: 10px;
+        }
+
+        #map {
+            height: 400px;
+        }
+
+        canvas {
+            max-height: 400px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="mt-5">Traffic Monitoring Dashboard</h1>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Vehicles Counted</h5>
+                        <p id="total-vehicles" class="lead">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Average Wait Time</h5>
+                        <p id="avg-wait-time" class="lead">0 minutes</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Current Traffic Condition</h5>
+                        <p id="traffic-condition" class="lead">Moderate</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <h2>Live Traffic Feed</h2>
+                <canvas id="liveTrafficChart"></canvas>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <h2>Traffic Camera Locations</h2>
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Example camera locations with initial traffic data
+        const cameraData = [
+            { lat: 28.6139, lng: 77.2090, totalVehicles: 300, avgWaitTime: 5, condition: 'Moderate' }, // Delhi
+            { lat: 19.0760, lng: 72.8777, totalVehicles: 700, avgWaitTime: 10, condition: 'Heavy' } // Mumbai
+        ];
+
+        // Load real-time traffic data
+        function loadTrafficData() {
+            // Simulating the aggregation of traffic data
+            const totalVehicles = cameraData.reduce((sum, cam) => sum + cam.totalVehicles, 0);
+            const avgWaitTime = cameraData.reduce((sum, cam) => sum + cam.avgWaitTime, 0) / cameraData.length;
+            const trafficCondition = totalVehicles > 500 ? 'Heavy' : (totalVehicles > 200 ? 'Moderate' : 'Light');
+
+            document.getElementById('total-vehicles').innerText = totalVehicles;
+            document.getElementById('avg-wait-time').innerText = avgWaitTime.toFixed(2) + ' minutes';
+            document.getElementById('traffic-condition').innerText = trafficCondition;
+        }
+
+        // Initialize the map
+        function initMap() {
+            const map = L.map('map').setView([20.5937, 78.9629], 5); // Center of India
+
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Mark traffic camera locations
+            cameraData.forEach(location => {
+                const marker = L.marker([location.lat, location.lng]).addTo(map);
+                marker.bindPopup(`
+                    <b>Traffic Camera</b><br>
+                    Total Vehicles: ${location.totalVehicles}<br>
+                    Average Wait Time: ${location.avgWaitTime} minutes<br>
+                    Condition: ${location.condition}
+                `);
+            });
+        }
+
+        // Load data and initialize the map
+        loadTrafficData();
+        initMap();
+
+        // Create a live traffic chart
+        const ctx = document.getElementById('liveTrafficChart').getContext('2d');
+        const liveTrafficChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [], // Time intervals or timestamps will be added here
+                datasets: [{
+                    label: 'Total Vehicles',
+                    data: [], // Total vehicle counts will be populated here
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2,
+                    fill: false,
+                    yAxisID: 'y-axis-1'
+                },
+                {
+                    label: 'Average Wait Time (minutes)',
+                    data: [], // Average wait times will be populated here
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 2,
+                    fill: false,
+                    yAxisID: 'y-axis-2'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Vehicles',
+                        },
+                        position: 'left',
+                        id: 'y-axis-1',
+                    },
+                    y1: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Average Wait Time (minutes)',
+                        },
+                        position: 'right',
+                        id: 'y-axis-2',
+                        grid: {
+                            drawOnChartArea: false // only want the grid lines for one axis to show up
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Time'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Update the chart with new data
+        function updateTrafficData() {
+            // Simulate real-time data changes for each camera
+            cameraData.forEach(cam => {
+                cam.totalVehicles = Math.floor(Math.random() * 1000); // Random total vehicles
+                cam.avgWaitTime = Math.floor(Math.random() * 15); // Random avg wait time
+            });
+
+            // Update total vehicles and average wait time
+            loadTrafficData();
+
+            // Update the chart with new data
+            const currentTime = new Date().toLocaleTimeString();
+            liveTrafficChart.data.labels.push(currentTime);
+            const totalVehicles = cameraData.reduce((sum, cam) => sum + cam.totalVehicles, 0);
+            const avgWaitTime = cameraData.reduce((sum, cam) => sum + cam.avgWaitTime, 0) / cameraData.length;
+
+            liveTrafficChart.data.datasets[0].data.push(totalVehicles);
+            liveTrafficChart.data.datasets[1].data.push(avgWaitTime);
+            liveTrafficChart.update();
+        }
+
+        // Simulate data updates every minute
+        setInterval(updateTrafficData, 60000); // Update every minute
+        updateTrafficData(); // Initial load
+    </script>
+        {% endblock %}
+</body>
+
+</html>

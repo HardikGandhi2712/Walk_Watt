@@ -1,0 +1,239 @@
+{% extends 'foot/base.html' %}
+
+{% block title %}Home - Footstep Energy{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - WalkWatt</title>
+   
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+        /* Hero Section */
+#hero {
+    width: 100vw; /* Full viewport width */
+    height: 600px; /* Fixed height, adjust as needed */
+    background-image: url('../images/bg.png'); /* Replace with your image path */
+    background-size: cover;
+    background-position: left center; /* Align to the left */
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-left: calc(-50vw + 50%); /* Compensate for any parent padding */
+}
+
+#hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Add a semi-transparent overlay */
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1; /* Ensure content is above the overlay */
+    text-align: center;
+    color: #ffffff; /* White text for better visibility */
+    padding: 2rem;
+}
+
+#hero h1 {
+    font-weight: 600;
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow for better readability */
+}
+
+#hero p {
+    font-size: 1.5rem;
+    max-width: 600px;
+    margin: 0 auto;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Add text shadow for better readability */
+}
+
+#hero2 {
+    width: 100vw;
+    height: auto; /* Changed to auto to accommodate content */
+    background-image: url('../images/bg-hero-2.jpeg'); 
+    background-size: cover;
+    background-position: left center; 
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark overlay */
+    background-blend-mode: overlay;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    margin-left: calc(-50vw + 50%);
+    padding: 4rem 0;
+}
+
+#hero2 h1 {
+    justify-content: center;
+    font-weight: 300;
+    font-size: 2.5rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+}
+
+#hero2  p {
+    color: #ffffff;
+    font-size: 1.2rem;
+    margin-bottom: 3rem;
+    max-width: 800px;
+    text-align: center;
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.small-card {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1.5rem;
+    width: 250px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    text-align: center;
+    color: #ffffff;
+}
+
+.small-card:hover {
+    transform: translateY(-5px);
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.card-icon {
+    height: 70px;
+    width: 40px;
+    object-fit: contain;
+    margin-bottom: 1rem;
+}
+
+.small-card i {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: block; /* Ensures the icon is centered */
+}
+
+.small-card h3 {
+    font-size: 1.125rem; /* 18px in rem */
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+}
+
+.small-card p {
+    font-size: 0.875rem;
+    color: #e0e0e0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .card-container {
+        gap: 1rem;
+    }
+    
+    .small-card {
+        width: calc(50% - 1rem);
+    }
+}
+
+@media (max-width: 768px) {
+    .small-card {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    #hero2 h1 {
+        font-size: 2rem;
+    }
+
+    #hero2 > p {
+        font-size: 1rem;
+    }
+}
+
+/* Add more styles for additional home page content here */
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <!-- <header>
+            <div class="header-content">
+                <nav>
+                    <ul>
+                        <li><a href="Home.html">Home</a></li>
+                        <li><a href="about_us.html">About Us</a></li>
+                        <li><img src="images/logo.png" alt="WalkWatt Logo" class="header-logo"></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header> -->
+
+        <main>
+            <section id="hero">
+                <div class="hero-content">
+                    <h1>Welcome to WalkWatt</h1>
+                    <p>Harnessing the power of your steps for a greener future</p>
+                </div>
+            </section>
+
+            <section id="hero2">
+                <div class="hero-content">
+                    <h1>Innovative Solutions for Smart Cities</h1>
+                    <p>Harnessing the power of your steps for a greener future</p>
+                </div>
+                <div class="card-container">
+                    <div class="small-card">
+                        <i class="fa-solid fa-bolt" style="color: #31b075;"></i>
+                        <h3>Energy Efficiency</h3>
+                        <p>Optimize power usage with smart technology</p>
+                    </div>
+                    <div class="small-card">
+                        <i class="fa-solid fa-leaf" style="color: #31b075;"></i>
+                        <h3>Eco-Friendly</h3>
+                        <p>Reduce carbon footprint with green solutions</p>
+                    </div>
+                    <div class="small-card">
+                        <i class="fa-solid fa-network-wired" style="color: #31b075;"></i>
+                        <h3>Smart Grid</h3>
+                        <p>Integrate renewable energy sources seamlessly</p>
+                    </div>
+                    <div class="small-card">
+                        <i class="fa-solid fa-chart-line" style="color: #31b075;"></i>
+                        <h3>Data Analytics</h3>
+                        <p>Optimize performance with real-time insights</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2023 WalkWatt. All rights reserved.</p>
+        </footer>
+    </div>
+        
+{% endblock %}
+
+</body>
+</html>

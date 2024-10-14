@@ -1,0 +1,384 @@
+{% extends 'foot/base.html' %}
+
+{% block title %}Home - Footstep Energy{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Your Company Name</title>
+   
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+        /* Declare the font-face */
+@font-face {
+    font-family: 'Mont Heavy DEMO';
+    src: url('C:/Tools/Fonts/Fontfabric - Mont Heavy DEMO.otf') format('otf');
+    /* Add other formats if you have them */
+  }
+
+  .montserrat-header {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600; /* or any desired weight */
+    font-style: normal;
+  }
+  
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Montserrat', sans-serif;
+        line-height: 1.6;
+        color: #333;
+    }
+
+    /* Header styles */
+    header {
+        font-family: 'Montserrat', sans-serif;
+        background-color: #f4f4f4;
+        padding: 1rem 0;
+    }
+
+.header-content {
+    max-width: 1200px;
+    flex: 1;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-logo {
+    height: 35px; /* Adjust this value to fit your logo */
+    width: auto;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+}
+
+nav ul li {
+    margin: 0 1.5rem; /* Adjust this value to increase/decrease spacing */
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #000000;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #31b075;
+}
+
+/* Main content styles */
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+section {
+    margin-bottom: 3rem;
+}
+
+h1, h2 {
+    font-size:3rem;
+    margin-bottom: 1rem;
+}
+
+/* About hero section */
+
+main section img{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+#about-hero {
+    
+    text-align: center;
+    background-color: #e9ecef;
+    padding: 3rem 0;
+}
+
+#about-hero h1 {
+    font-weight:300;
+    font-size: 2.5rem;
+    color: #31b075;
+}
+
+
+#values h2{
+    font-size:2.5rem;
+}
+
+#our-story p{
+    font-size:1.2rem;
+}
+/* Team section */
+.team-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.team-member {
+    text-align: center;
+    width: calc(33.333% - 2rem); /* Subtracting the gap to ensure 3 cards fit in one line */
+    min-width: 200px; /* Minimum width to maintain readability */
+    margin-bottom: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-member:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.team-member h3 {
+    margin-bottom: 0.5rem;
+    color: #31b075;
+}
+
+.team-member p {
+    margin-bottom: 1rem;
+    color: #666;
+}
+
+.team-member img {
+    width: 120px; /* Slightly reduced size to fit better in the card */
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+    border: 3px solid #31b075;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .team-member {
+        width: calc(50% - 2rem); /* 2 cards per row on medium screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .team-member {
+        width: 100%; /* Full width on small screens */
+        max-width: 300px;
+    }
+}
+
+/* Values section */
+#values {
+    background-color: #f4f4f4;
+    padding: 3rem 0;
+    text-align: center;
+}
+
+#values h2 {
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+#values ul {
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+#values li {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    width: calc(33.333% - 2rem);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+#values li:hover {
+    transform: translateY(-5px);
+}
+
+#values h3 {
+    color: #31b075;
+    margin-bottom: 0.5rem;
+}
+
+#values p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 992px) {
+    #values li {
+        width: calc(50% - 2rem);
+    }
+}
+
+@media (max-width: 768px) {
+    #values li {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+/* Footer styles */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    flex-shrink: 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+    }
+
+    nav {
+        flex-direction: column;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 0.5rem 0;
+    }
+
+    .header-logo {
+        margin: 1rem 0;
+    }
+}
+
+/* Add these styles at the beginning of the file */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1 0 auto;
+}
+        </style>
+</head>
+<body>
+    <!-- <header>
+        <div class="header-content">
+            <nav>
+                <ul>
+                    <li><a href="Home.html">Home</a></li>
+                    <li><a href="about_us.html">About Us</a></li>
+                    <li><img src="images/logo.png" alt="WalkWatt Logo" class="header-logo"></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header> -->
+
+    <main>
+       
+
+        <section id="our-story">
+            <h2>Our Story</h2>
+            <p>At this hackathon, our team focused on two critical services aimed at transforming urban infrastructure. First, we developed a traffic data-driven analytics system that uses real-time data to dynamically adjust traffic signal timers, ensuring smoother traffic flow and reducing congestion across busy intersections. By leveraging machine learning, our solution can optimize traffic patterns, cutting down on commute times and reducing emissions.
+
+                Our second initiative centered on sustainability: we designed energy-harvesting tiles that convert the kinetic energy from footsteps into electricity. Placed in high-footfall areas like malls, train stations, and parks, these tiles generate clean energy to power public utilities such as streetlights and charging stations. Together, these innovations contribute to building a smarter, more sustainable city, where technology adapts to human activity and helps reduce environmental impact.
+           <br> <br>
+
+                <section id="mission-vision">
+            <h2>Our Mission and Vision</h2>
+            <p>Our mission is to create intelligent, sustainable urban solutions by leveraging data and innovative technologies. We aim to enhance the quality of life in cities by optimizing infrastructure for efficiency, reducing environmental impact, and fostering renewable energy generation through everyday activities. Our focus is on transforming urban mobility and energy systems to build smarter, more adaptive cities that work seamlessly for the people who live and move within them.
+
+                We envision a future where cities are powered by data and human movement, seamlessly integrating advanced analytics and renewable energy solutions. Our goal is to build cities that are not only smarter and more efficient but also sustainable and responsive to the needs of their citizens, creating a harmonious balance between technology, energy, and urban life for a better, greener future.
+            </p>
+        </section>
+
+        <section id="team">
+            <h2>Our Team</h2>
+            <div class="team-container">
+                <div class="team-member">
+                    <h3>Diya Jain</h3>
+                    <p>Project Manager</p>
+                </div>
+                <div class="team-member">
+                    <h3>Hardik Gandhi</h3>
+                    <p>Team Lead</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="values">
+            <h2>Our Values</h2>
+            <ul>
+                <li>
+                    <h3>Innovation</h3>
+                    <p>We constantly push the boundaries of technology to create cutting-edge solutions for urban challenges.</p>
+                </li>
+                <li>
+                    <h3>Sustainability</h3>
+                    <p>We are committed to developing eco-friendly solutions that reduce environmental impact and promote renewable energy.</p>
+                </li>
+                <li>
+                    <h3>Data-Driven</h3>
+                    <p>We leverage the power of data analytics and machine learning to optimize our solutions and drive informed decision-making.</p>
+                </li>
+                <li>
+                    <h3>Collaboration</h3>
+                    <p>We believe in the power of teamwork and partnerships to create holistic solutions for complex urban issues.</p>
+                </li>
+                <li>
+                    <h3>User-Centric</h3>
+                    <p>We prioritize the needs and experiences of city dwellers in all our designs and implementations.</p>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 WalkWatt. All rights reserved.</p>
+    </footer>
+        
+{% endblock %}
+
+</body>
+</html>

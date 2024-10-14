@@ -1,0 +1,54 @@
+{% extends 'foot/base.html' %}
+
+{% block title %}Home - Footstep Energy{% endblock %}
+
+{% block content %}
+    <h1 class="mt-5">Welcome to the Footstep Energy Dashboard</h1>
+    <p class="lead">This platform helps in managing and visualizing energy generated from footstep power generation using piezoelectric sensors.</p>
+
+    <h2 class="mt-5">General Footfall Metrics (Real-Time)</h2>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <h3>Total Footfall</h3>
+            <p class="lead">{{ total_footfall }}</p>
+        </div>
+        <div class="col-md-4">
+            <h3>Peak Hours</h3>
+            {% if peak_hours %}
+                <p class="lead">{{ peak_hours }}:00</p>
+            {% else %}
+                <p class="lead">No data available</p>
+            {% endif %}
+        </div>
+        <div class="col-md-4">
+            <h3>Average Dwell Time</h3>
+            <p class="lead">{{ average_dwell_time }} minutes</p>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h3>Footfall Distribution</h3>
+            <ul class="list-group">
+                {% for entry in footfall_distribution %}
+                    <li class="list-group-item">
+                        Date: {{ entry.date_recorded__date }} - Footsteps: {{ entry.total_footsteps }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h3>Footfall Trends (Last 30 Days)</h3>
+            <ul class="list-group">
+                {% for entry in footfall_trends %}
+                    <li class="list-group-item">
+                        Date: {{ entry.date_recorded__date }} - Footsteps: {{ entry.total_footsteps }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    
+{% endblock %}

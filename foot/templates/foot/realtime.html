@@ -1,0 +1,179 @@
+{% extends 'foot/base.html' %}
+
+{% block title %}Home - Footstep Energy{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Footstep Traffic and Energy</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* CSS for the chessboard grid */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr); /* 5 columns for 5 hotspots */
+            gap: 10px; /* Space between squares */
+            margin: 20px 0;
+        }
+        .grid-item {
+            border: 1px solid #ddd;
+            padding: 20px;
+            text-align: center;
+            background-color: #f9f9f9;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .grid-item:hover {
+            background-color: #e0f7fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Real-Time Footstep Traffic and Energy Generation</h1>
+
+        <!-- Chessboard Grid -->
+        <h2>City Hotspots Foot Traffic</h2>
+        <div class="grid-container" id="hotspotGrid"></div>
+
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <h2>Foot Traffic and Energy Generation</h2>
+                <canvas id="hotspotChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ENERGY_PER_STEP = 0.05;  // Energy generated per step (in kWh)
+        const HOTSPOT_STORAGE_KEY = 'hotspotData';  // Key to store/retrieve data from localStorage
+        const footstepCounts = {};  // Store footstep data for the graph
+        const energyCounts = {};  // Store energy data for the graph
+        const ctx = document.getElementById('hotspotChart').getContext('2d');
+        let hotspotChart;
+
+        // Function to load initial data (either from localStorage or API)
+        async function loadHotspotData() {
+            const storedData = localStorage.getItem(HOTSPOT_STORAGE_KEY);
+
+            if (storedData) {
+                const data = JSON.parse(storedData);
+                Object.keys(data).forEach((location_name) => {
+                    footstepCounts[location_name] = data[location_name].footsteps;
+                    energyCounts[location_name] = data[location_name].energy;
+                });
+            } else {
+                const response = await fetch('/api/hotspot-footstep-data/');
+                const data = await response.json();
+
+                data.forEach((entry, index) => {
+                    footstepCounts[entry.location_name] = entry.total_footsteps;
+                    energyCounts[entry.location_name] = entry.total_footsteps * ENERGY_PER_STEP;
+                });
+
+                // Store the fetched data in localStorage
+                saveDataToLocalStorage();
+            }
+
+            updateUI();
+            renderChart();
+        }
+
+        // Function to save data to localStorage
+        function saveDataToLocalStorage() {
+            const dataToStore = {};
+            Object.keys(footstepCounts).forEach((location_name) => {
+                dataToStore[location_name] = {
+                    footsteps: footstepCounts[location_name],
+                    energy: energyCounts[location_name]
+                };
+            });
+            localStorage.setItem(HOTSPOT_STORAGE_KEY, JSON.stringify(dataToStore));
+        }
+
+        // Function to update the grid UI
+        function updateUI() {
+            const hotspotGrid = document.getElementById('hotspotGrid');
+            hotspotGrid.innerHTML = ''; // Clear previous grid items
+
+            Object.keys(footstepCounts).forEach((location_name, index) => {
+                const square = document.createElement('div');
+                square.className = 'grid-item';
+                square.innerHTML = `
+                    <h4>${location_name}</h4>
+                    <p>Foot Traffic: <span id="footCount-${index}">${footstepCounts[location_name]}</span></p>
+                    <p>Energy Generated: <span id="energyCount-${index}">${energyCounts[location_name].toFixed(2)} kWh</span></p>
+                `;
+                square.addEventListener('click', () => updateData(location_name, index));
+                hotspotGrid.appendChild(square);
+            });
+        }
+
+        // Function to update the data when a square is clicked
+        function updateData(location_name, index) {
+            footstepCounts[location_name] += 67;  // Increment by 67 steps
+            energyCounts[location_name] = footstepCounts[location_name] * ENERGY_PER_STEP;  // Update energy generated
+
+            // Update the displayed footstep and energy values
+            document.getElementById(`footCount-${index}`).innerText = footstepCounts[location_name];
+            document.getElementById(`energyCount-${index}`).innerText = energyCounts[location_name].toFixed(2) + " kWh";
+
+            // Save the updated data to localStorage
+            saveDataToLocalStorage();
+
+            // Re-render the chart after updating data
+            renderChart();
+        }
+
+        function renderChart() {
+            const labels = Object.keys(footstepCounts);
+            const footCounts = Object.values(footstepCounts);
+            const energyCountsData = Object.values(energyCounts);
+
+            // If the chart exists, destroy it before creating a new one
+            if (hotspotChart) {
+                hotspotChart.destroy();
+            }
+
+            // Create the new chart with two datasets: Foot Traffic and Energy
+            hotspotChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Foot Traffic',
+                            data: footCounts,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Energy Generated (kWh)',
+                            data: energyCountsData,
+                            backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                            borderColor: 'rgba(255, 159, 64, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initial load
+        loadHotspotData();
+    </script>
+    {% endblock %}
+</body>
+</html>

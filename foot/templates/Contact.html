@@ -1,0 +1,191 @@
+{% extends 'foot/base.html' %}
+
+{% block title %}Home - Footstep Energy{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - WalkWatt</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+        /* General styles */
+body {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.container
+h1, h2 {
+    color: #31b075;
+}
+
+/* Contact section */
+.contact-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
+
+/* Contact form */
+.contact-form {
+    flex: 1;
+    max-width: 500px;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+textarea {
+    height: 150px;
+}
+
+button {
+    background-color: #31b075;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #28915f;
+}
+
+/* Contact information */
+.contact-info {
+    flex: 1;
+    margin-left: 2rem;
+}
+
+.contact-info h2 {
+    margin-bottom: 1rem;
+}
+
+.contact-info p {
+    margin-bottom: 0.5rem;
+}
+
+/* Map */
+.map {
+    margin-top: 2rem;
+}
+
+.map iframe {
+    width: 100%;
+    height: 300px;
+    border: none;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .contact-section {
+        flex-direction: column;
+    }
+
+    .contact-info {
+        margin-left: 0;
+        margin-top: 2rem;
+    }
+}
+
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    width: 100%;
+}
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <!-- <header>
+            <div class="header-content">
+                <nav>
+                    <ul>
+                        <li><a href="Home.html">Home</a></li>
+                        <li><a href="about_us.html">About Us</a></li>
+                        <li><img src="images/logo.png" alt="WalkWatt Logo" class="header-logo"></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header> -->
+
+        <main>
+            <div class="container">
+                
+                <div class="contact-section">
+                    <div class="contact-form">
+                        <h2>Send us a message</h2>
+                        <form action="#" method="POST">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" name="message" required></textarea>
+                            </div>
+                            <button type="submit">Send Message</button>
+                        </form>
+                    </div>
+                    <div class="contact-info">
+                        <h2>Contact Information</h2>
+                        <p>Email: info@walkwatt.com</p>
+                        <p>Phone: +1 (123) 456-7890</p>
+                        <p>Address: 123 Green Energy Street, Eco City, EC 12345</p>
+                    </div>
+                </div>
+                <div class="map">
+                    <h2>Find Us</h2>
+                    <!-- Replace the src with your actual Google Maps embed code -->
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.1!3d40.7!4d-74.0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQyJzAwLjAiTiA3NMKwMDAnMDAuMCJX!5e0!3m2!1sen!2sus!4v1234567890!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2023 WalkWatt. All rights reserved.</p>
+        </footer>
+    </div>
+        
+{% endblock %}
+
+</body>
+</html>
